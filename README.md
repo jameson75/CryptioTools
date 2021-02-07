@@ -1,7 +1,5 @@
-<p align="center">
-  <a href="https://example.com/">
-    <img src="https://via.placeholder.com/72" alt="Logo" width=72 height=72>
-  </a>
+<p align="center"> 
+    <img src="https://ibb.co/d7D1ntN" alt="Logo" width=400 height=400>
 
   <h3 align="center">Logo</h3>
 
