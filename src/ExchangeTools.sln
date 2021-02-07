@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinbasePro", "CoinbasePro\CoinbasePro.csproj", "{0A46D6D6-F6CE-4B97-80AF-D6EA564AD2D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{24354640-0886-4693-8ADF-1C8BBABF791E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{38D3A4C5-7C3A-4065-9353-17E025201DBB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility.UnitTests", "..\tests\Utility.UnitTests\Utility.UnitTests.csproj", "{5BA16E25-C37C-47C3-9B33-E5E20068E199}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinbasePro.UnitTests", "..\tests\CoinbasePro.UnitTests\CoinbasePro.UnitTests.csproj", "{9AE1D5B7-54B2-4E03-A1C0-8BE07951CBC3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinbasePro.IntegrationTests", "..\tests\CoinbasePro.IntegrationTests\CoinbasePro.IntegrationTests.csproj", "{6B68B709-233E-4727-BE9B-AC5A5F7E5D73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A46D6D6-F6CE-4B97-80AF-D6EA564AD2D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A46D6D6-F6CE-4B97-80AF-D6EA564AD2D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A46D6D6-F6CE-4B97-80AF-D6EA564AD2D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A46D6D6-F6CE-4B97-80AF-D6EA564AD2D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24354640-0886-4693-8ADF-1C8BBABF791E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24354640-0886-4693-8ADF-1C8BBABF791E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24354640-0886-4693-8ADF-1C8BBABF791E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24354640-0886-4693-8ADF-1C8BBABF791E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BA16E25-C37C-47C3-9B33-E5E20068E199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BA16E25-C37C-47C3-9B33-E5E20068E199}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BA16E25-C37C-47C3-9B33-E5E20068E199}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BA16E25-C37C-47C3-9B33-E5E20068E199}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AE1D5B7-54B2-4E03-A1C0-8BE07951CBC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE1D5B7-54B2-4E03-A1C0-8BE07951CBC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE1D5B7-54B2-4E03-A1C0-8BE07951CBC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE1D5B7-54B2-4E03-A1C0-8BE07951CBC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B68B709-233E-4727-BE9B-AC5A5F7E5D73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B68B709-233E-4727-BE9B-AC5A5F7E5D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B68B709-233E-4727-BE9B-AC5A5F7E5D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B68B709-233E-4727-BE9B-AC5A5F7E5D73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5BA16E25-C37C-47C3-9B33-E5E20068E199} = {38D3A4C5-7C3A-4065-9353-17E025201DBB}
+		{9AE1D5B7-54B2-4E03-A1C0-8BE07951CBC3} = {38D3A4C5-7C3A-4065-9353-17E025201DBB}
+		{6B68B709-233E-4727-BE9B-AC5A5F7E5D73} = {38D3A4C5-7C3A-4065-9353-17E025201DBB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF5C5A6F-DDC0-40EF-81D3-9E9B6C352AA3}
+	EndGlobalSection
+EndGlobal
