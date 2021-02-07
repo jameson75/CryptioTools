@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using CipherPark.ExchangeTools.CoinbasePro.Models;
 using CipherPark.ExchangeTools.Utility;
@@ -27,84 +28,162 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
         }
 
         #region Accounts
-
-        public Account[] GetAllAccounts()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Account[]> GetAllAccountsAsync()
         {
             string requestPath = "accounts";
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            return JsonConvert.DeserializeObject<Account[]>(jsonResult);
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<Account[]>(result.Content);
         }
 
-        public Account GetAccount(string accountId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Account[] GetAllAccounts()
+        {
+            return GetAllAccountsAsync().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
+        public async Task<Account> GetAccountAsync(string accountId)
         {
             string requestPath = $"accounts/{accountId}";
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            return JsonConvert.DeserializeObject<Account>(jsonResult);
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<Account>(result.Content);
         }
 
-        public AccountHistoryPage GetAccountHistory(string accountId, string before, string after)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <returns></returns>
+        public Account GetAccount(string accountId)
         {
-            string requestPath = $"accounts/{accountId}/ledger";
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET, out string _before, out string _after);
+            return GetAccountAsync(accountId).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="before"></param>
+        /// <param name="after"></param>
+        /// <returns></returns>
+        public async Task<AccountHistoryPage> GetAccountHistoryAsync(string accountId, string before = null, string after = null)
+        {
+            string requestPath = UrlQueryStringAppender.Append($"accounts/{accountId}/ledger", new { before, after });
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
             return new AccountHistoryPage
             {
-                History = JsonConvert.DeserializeObject<AccountHistory[]>(jsonResult),
-                Before = _before,
-                After = _after
+                History = JsonConvert.DeserializeObject<AccountHistory[]>(result.Content),
+                Before = result.Before,
+                After = result.After
             };
         }
 
-        public HoldsPage GetHolds(string accountId, string before = null, string after = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="before"></param>
+        /// <param name="after"></param>
+        /// <returns></returns>
+        public AccountHistoryPage GetAccountHistory(string accountId, string before = null, string after = null)
+        {
+            return GetAccountHistoryAsync(accountId, before, after).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="before"></param>
+        /// <param name="after"></param>
+        /// <returns></returns>
+        public async Task<HoldsPage> GetHoldsAsync(string accountId, string before = null, string after = null)
         {
             string requestPath = UrlQueryStringAppender.Append($"accounts/{accountId}/holds", new { before, after });
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET, out string _before, out string _after);
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
             return new HoldsPage
             {
-                Holds = JsonConvert.DeserializeObject<Hold[]>(jsonResult),
-                Before = _before,
-                After = _after
+                Holds = JsonConvert.DeserializeObject<Hold[]>(result.Content),
+                Before = result.Before,
+                After = result.After
             };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="before"></param>
+        /// <param name="after"></param>
+        /// <returns></returns>
+        public HoldsPage GetHolds(string accountId, string before = null, string after = null)
+        {
+            return GetHoldsAsync(accountId, before, after).GetAwaiter().GetResult();
         }
 
         #endregion      
 
         #region Orders
 
-        public OrderResult PlaceOrder(PlaceOrderParams order)
+        public async Task<OrderResult> PlaceOrderAsync(PlaceOrderParams order)
         {
             string requestPath = "orders";
             string content = JsonConvert.SerializeObject(order);
-            var jsonResult = SendRequest(content, requestPath, HttpMethodNames.POST);
-            var orderResult = JsonConvert.DeserializeObject<OrderResult>(jsonResult);
+            var result = await SendRequestAsync(content, requestPath, HttpMethodNames.POST);
+            var orderResult = JsonConvert.DeserializeObject<OrderResult>(result.Content);
             return orderResult;
         }
 
-        public string CancelOrder(string orderId)
+        public  OrderResult PlaceOrder(PlaceOrderParams order)
         {
-            string requestPath = $"orders/{orderId}";            
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.DELETE);
-            return jsonResult;
+            return PlaceOrderAsync(order).GetAwaiter().GetResult();
+        }
+
+        public async Task<string> CancelOrderAsync(string orderId, bool isClientId = false)
+        {
+            string requestPath = isClientId ? $"orders/client:{orderId}" : $"orders/{orderId}";
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.DELETE);
+            return result.Content;
+        }
+
+        public string CancelOrder(string orderId, bool isClientId = false)
+        {
+            return CancelOrderAsync(orderId, isClientId).GetAwaiter().GetResult();
+        }
+
+        public async Task<string[]> CancelAllAsync()
+        {
+            string requestPath = "orders";
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.DELETE);
+            return JsonConvert.DeserializeObject<string[]>(result.Content);
         }
 
         public string[] CancelAll()
         {
-            string requestPath = "orders";
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.DELETE);
-            return JsonConvert.DeserializeObject<string[]>(jsonResult);
+            return CancelAllAsync().GetAwaiter().GetResult();
+        }
+
+        public async Task <OrderResult[]> ListOrdersAsync(ListOrderParams filter)
+        {
+            string requestPath = UrlQueryStringAppender.Append("orders", filter);
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<OrderResult[]>(result.Content);        
         }
 
         public OrderResult[] ListOrders(ListOrderParams filter)
         {
-            string requestPath = UrlQueryStringAppender.Append("orders", filter);            
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            return JsonConvert.DeserializeObject<OrderResult[]>(jsonResult);
-        }
-
-        public string CancelOrder (string orderId, bool isClientId = false)
-        {
-            string requestPath = isClientId ? $"orders/client:{orderId}" : $"orders/{orderId}";
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.DELETE);
-            return jsonResult;
+            return ListOrdersAsync(filter).GetAwaiter().GetResult();
         }
 
         #endregion
@@ -234,19 +313,17 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
 
         #endregion
 
-        #region Connectivity
-        private string SendRequest(string content, string requestPath, string method = HttpMethodNames.POST)
-        {
-            return SendRequest(content, requestPath, method, out string _, out string _);
-        }
+        #region Connectivity             
 
-        private string SendRequest(string content, string requestPath, string method, out string before, out string after)
+        private async Task<AsyncRequestResult> SendRequestAsync(string content, string requestPath, string method)
         {
             string responseData = null;
             string endPoint = EndPoint;
             string url = $"{endPoint}/{requestPath}";
             string timeStamp = DateTime.UtcNow.ToUnixSeconds().ToString();
             string signature = CoinbaseRequestSignature.Generate(timeStamp, "/" + requestPath, content, Secret, method);
+            string before = null;
+            string after = null;
 
             try
             {
@@ -265,15 +342,15 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
 
                 if (content != null)
                 {
-                    using Stream requestStream = webRequest.GetRequestStream();
+                    using Stream requestStream = await webRequest.GetRequestStreamAsync();
                     requestStream.Write(System.Text.Encoding.ASCII.GetBytes(content), 0, content.Length);
                 }
 
-                HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
+                HttpWebResponse webResponse = (HttpWebResponse) await webRequest.GetResponseAsync();
                 using (Stream responseStream = webResponse.GetResponseStream())
                 {
                     using StreamReader reader = new StreamReader(responseStream, Encoding.Default);
-                    responseData = reader.ReadToEnd();
+                    responseData = await reader.ReadToEndAsync();
                 }
 
                 before = webResponse.Headers.Get("CB-BEFORE");
@@ -291,8 +368,22 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
                 throw new CoinbaseApiException(responseData, webEx);
             }
 
-            return responseData;
+            return new AsyncRequestResult(responseData, before, after);
         }
+
+        private string SendRequest(string content, string requestPath, string method, out string before, out string after)
+        {
+            var result = SendRequestAsync(content, requestPath, method).GetAwaiter().GetResult();
+            before = result.Before;
+            after = result.After;
+            return result.Content;
+        }
+
+        private string SendRequest(string content, string requestPath, string method = HttpMethodNames.POST)
+        {
+            return SendRequest(content, requestPath, method, out string _, out string _);
+        }
+
         #endregion
     }
 }
