@@ -1,6 +1,4 @@
-using System;
 using System.Linq;
-using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 using FluentAssertions;
@@ -44,7 +42,23 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
 
             //Assert
             products.Should().NotBeEmpty();
-            products.IsUniqueOn(x => x.Id);
+            products.IsUniqueOn(x => x.Id).Should().BeTrue();
+        }
+
+        [Fact]
+        public void WhenFirstTradesPageRequested_ThenResponseHasTrades()
+        {
+            //Arrange
+            CoinbaseApi sut = CreateApi();
+
+            //Act
+            var page = sut.GetTrades("BTC-USD");
+
+            //Assert
+            page.Trades.Should().NotBeNullOrEmpty();
+            page.Trades.IsUniqueOn(x => x.TradeId).Should().BeTrue();
+            page.Trades.All(x => x.Price > 0).Should().BeTrue();
+            page.Trades.All(x => x.Size > 0).Should().BeTrue();
         }
 
         [Fact]
