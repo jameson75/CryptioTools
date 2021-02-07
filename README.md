@@ -1,5 +1,5 @@
 <p align="center"> 
-    <img src="https://ibb.co/d7D1ntN" alt="Logo" width=400 height=400>
+    <img src="https://iili.io/fup5ge.png" alt="Logo" width=100 height=100>
 
   <h3 align="center">Logo</h3>
 
