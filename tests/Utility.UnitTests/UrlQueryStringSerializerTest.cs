@@ -42,5 +42,21 @@ namespace Utility.UnitTests
             //Assert
             queryString.Should().Be(expectedString);
         }
+
+        [Fact]
+        public void WhenNoPropertyIsPopulated_ThenQueryStringHasNoFields()
+        {
+            //Arrange
+            const string ProductId = null;
+            const string OrderId = null;
+
+            var testData = new { product_id = ProductId, order_id = OrderId };            
+
+            //Act
+            var queryString = UrlQueryStringSerializer.SerializeObject(testData);
+
+            //Assert
+            queryString.Should().BeNullOrEmpty();
+        }
     }
 }
