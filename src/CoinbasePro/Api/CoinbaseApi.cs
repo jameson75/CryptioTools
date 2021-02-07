@@ -247,32 +247,47 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
 
         #region Market Data
 
-        public ProductResult[] GetProducts()
+        public async Task<ProductResult[]> GetProductsAsync()
         {
             string requestPath = "products";
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            return JsonConvert.DeserializeObject<ProductResult[]>(jsonResult);
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<ProductResult[]>(result.Content);
+        }
+
+        public ProductResult[] GetProducts()
+        {
+            return GetProductsAsync().GetAwaiter().GetResult();
+        }
+
+        public async Task<SingleProductResult> GetSingleProductAsync(string productId)
+        {
+            string requestPath = $"products/{productId}";
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<SingleProductResult>(result.Content);
         }
 
         public SingleProductResult GetSingleProduct(string productId)
         {
-            string requestPath = $"products/{productId}";
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            return JsonConvert.DeserializeObject<SingleProductResult>(jsonResult);
+            return GetSingleProductAsync(productId).GetAwaiter().GetResult();
+        }
+
+        public async Task<TickerResult> GetProductTickerAsync(string productId)
+        {
+            string requestPath = $"products/{productId}/ticker";
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<TickerResult>(result.Content);
         }
 
         public TickerResult GetProductTicker(string productId)
         {
-            string requestPath = $"products/{productId}/ticker";
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            return JsonConvert.DeserializeObject<TickerResult>(jsonResult);
+            return GetProductTickerAsync(productId).GetAwaiter().GetResult();
         }
 
-        public HistoricRate[] GetHistoricRates(string productId, HistoricRateParams hrp)
+        public async Task<HistoricRate[]> GetHistoricRatesAsync(string productId, HistoricRateParams hrp)
         {
             string requestPath = UrlQueryStringAppender.Append($"products/{productId}/candles", hrp);                        
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            var tempResults = JsonConvert.DeserializeObject<object[][]>(jsonResult);
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            var tempResults = JsonConvert.DeserializeObject<object[][]>(result.Content);
             return tempResults.Select(x => new HistoricRate
             {
                 Time = UnixTimestampConverter.FromUnixSeconds(Convert.ToInt64(x[0])),
@@ -284,31 +299,51 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
             }).ToArray();
         }
 
-        public OrderBookResult GetProductOrderBook(string productId, int? level = null)
+        public HistoricRate[] GetHistoricRates(string productId, HistoricRateParams hrp)
+        {
+            return GetHistoricRatesAsync(productId, hrp).GetAwaiter().GetResult();
+        }
+
+        public async Task<OrderBookResult> GetProductOrderBookAsync(string productId, int? level = null)
         {
             string requestPath = $"products/{productId}/book";
             UrlQueryStringAppender.Append(requestPath, new { level });
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            return JsonConvert.DeserializeObject<OrderBookResult>(jsonResult);
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<OrderBookResult>(result.Content);
+        }
+
+        public OrderBookResult GetProductOrderBook(string productId, int? level = null)
+        {
+            return GetProductOrderBookAsync(productId, level).GetAwaiter().GetResult();
+        }
+
+        public async Task<TradesPage> GetTradesAsync(string productId, string before = null, string after = null)
+        {
+            string requestPath = UrlQueryStringAppender.Append($"products/{productId}/trades", new { before, after });
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return new TradesPage
+            {
+                Trades = JsonConvert.DeserializeObject<Trade[]>(result.Content),
+                Before = result.Before,
+                After = result.After
+            };
         }
 
         public TradesPage GetTrades(string productId, string before = null, string after = null)
         {
-            string requestPath = UrlQueryStringAppender.Append($"products/{productId}/trades", new { before, after });
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET, out string _before, out string _after);
-            return new TradesPage
-            {
-                Trades = JsonConvert.DeserializeObject<Trade[]>(jsonResult),
-                Before = _before,
-                After = _after
-            };
+            return GetTradesAsync(productId, before, after).GetAwaiter().GetResult();
+        }
+
+        public async Task<StatsResult> Get24HourStatsAsync(string productId)
+        {
+            string requestPath = $"/products/{productId}/stats";
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<StatsResult>(result.Content);
         }
 
         public StatsResult Get24HourStats(string productId)
         {
-            string requestPath = $"/products/{productId}/stats";
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            return JsonConvert.DeserializeObject<StatsResult>(jsonResult);
+            return Get24HourStatsAsync(productId).GetAwaiter().GetResult();
         }
 
         #endregion
