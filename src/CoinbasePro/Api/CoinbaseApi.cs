@@ -189,11 +189,16 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
         #endregion
 
         #region Fills
-        public FillResult[] GetFills(FillParams filter)
+        public async Task<FillResult[]> GetFillsAsync(FillParams filter)
         {
             string requestPath = UrlQueryStringAppender.Append("fills", filter);           
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            return JsonConvert.DeserializeObject<FillResult[]>(jsonResult);
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<FillResult[]>(result.Content);
+        }
+
+        public FillResult[] GetFills(FillParams filter)
+        {
+            return GetFillsAsync(filter).GetAwaiter().GetResult();
         }
         #endregion
 

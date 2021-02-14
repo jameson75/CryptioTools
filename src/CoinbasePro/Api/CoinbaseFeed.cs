@@ -30,14 +30,11 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
         public async Task OpenAsync(string endPoint, string[] products)
         {
             string wsUrl = endPoint;
-            //****************************************************************************************
-            //NOTE: Microsoft's default implementation of WebSockets is not supported for Windows 7 or less.
-            //We leverage PingmanTools' extended implementation to support Windows 7
-            //*****************************************************************************************
-            WebSocket client = SystemClientWebSocket.CreateClientWebSocket();
+
+            WebSocket client = new ClientWebSocket();
             if (Proxy != null)
-                client.SetProxy(Proxy);           
-            await client.ConnectAsync(new Uri(wsUrl), CancellationToken.None);
+                ((ClientWebSocket)client).Options.Proxy = Proxy;           
+            await ((ClientWebSocket)client).ConnectAsync(new Uri(wsUrl), CancellationToken.None);
             string request = CreateSubscriptionRequest(Key, Secret, Passphrase, products);
             var payLoad = new ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(request));
             await client.SendAsync(payLoad, WebSocketMessageType.Text, true, CancellationToken.None);

@@ -3,13 +3,34 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CipherPark.ExchangeTools.Utility</RootNamespace>
+    <Version>0.0.7</Version>
+    <PackageId>CipherPark.ExchangeTools.Utility</PackageId>
+    <Authors>Eugene Adams</Authors>
+    <Company>Cipher Park</Company>
+    <Product>Cipher Park Exchange Tools Utility Library</Product>
+    <Description>Cipher Park Exchange Tools Utility Library</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/jameson75/ExchangeTools</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jameson75/ExchangeTools</RepositoryUrl>
+    <PackageTags>ExchangeTools Utility</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="JsonTimestampConverter.cs" />
+    <Compile Remove="WebsocketExtensions.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="System.Net.WebSockets.Client.Managed" Version="1.0.22" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

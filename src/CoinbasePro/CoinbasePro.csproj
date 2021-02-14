@@ -1,16 +1,34 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CipherPark.ExchangeTools.CoinbasePro</RootNamespace>
+    <PackageId>CipherPark.ExchangeTools.CoinbasePro</PackageId>
+    <Authors>Eugene Adams</Authors>
+    <Company>Cipher Park</Company>
+    <Product>CoinbasePro .NET Core Client Library</Product>
+    <Description>CoinbasePro .NET Core Client Library by Cipher Park</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/jameson75/ExchangeTools</PackageProjectUrl>
+    <Version>0.0.7</Version>
+    <RepositoryUrl>https://github.com/jameson75/ExchangeTools</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>Coinbase CoinbasePro Crypto Exchange</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Utility\Utility.csproj" />
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
 </Project>
