@@ -17,25 +17,35 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
         public string Secret { get; }
         public string Passphrase { get; }
         public WebProxy Proxy { get; }
+        public WSChannel[] Channels { get; }
 
-        public CoinbaseFeed(string endPoint, string key, string secret, string passPhrase, WebProxy proxy = null)
+        public static readonly WSChannel[] DefaultChannels = new[]
+        {
+                new WSChannel() { Name = WSChannelNames.User },
+                new WSChannel() { Name = WSChannelNames.Heartbeat },
+                new WSChannel() { Name = WSChannelNames.Level2 },
+                new WSChannel() { Name = WSChannelNames.Ticker }
+        };
+
+        public CoinbaseFeed(string endPoint, string key, string secret, string passPhrase, WSChannel[] channels = null, WebProxy proxy = null)
         {
             Key = key;
             Secret = secret;
             Passphrase = passPhrase;
             EndPoint = endPoint;
             Proxy = proxy;
+            Channels = channels ?? DefaultChannels;
         }
 
-        public async Task OpenAsync(string endPoint, string[] products)
+        public async Task OpenAsync(string[] products)
         {
-            string wsUrl = endPoint;
+            string wsUrl = EndPoint;
 
             WebSocket client = new ClientWebSocket();
             if (Proxy != null)
-                ((ClientWebSocket)client).Options.Proxy = Proxy;           
+                ((ClientWebSocket)client).Options.Proxy = Proxy;
             await ((ClientWebSocket)client).ConnectAsync(new Uri(wsUrl), CancellationToken.None);
-            string request = CreateSubscriptionRequest(Key, Secret, Passphrase, products);
+            string request = CreateSubscriptionRequest(Key, Secret, Passphrase, products, Channels);
             var payLoad = new ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(request));
             await client.SendAsync(payLoad, WebSocketMessageType.Text, true, CancellationToken.None);
             new Thread(async () =>
@@ -61,7 +71,7 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
                     OnMessageReceived(message);
                 }
             }).Start();
-        }   
+        }
 
         protected void OnRawMessageReceived(string response)
         {
@@ -77,16 +87,8 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
 
         public event Action<object, WSChannelMessage> MessageReceived;
 
-        private static string CreateSubscriptionRequest(string key, string secret, string passphrase, string[] products)
+        private static string CreateSubscriptionRequest(string key, string secret, string passphrase, string[] products, WSChannel[] channels)
         {
-            var channels = new[]
-            {
-                new WSChannel() { Name = WSChannelNames.User },
-                new WSChannel() { Name = WSChannelNames.Heartbeat },
-                new WSChannel() { Name = WSChannelNames.Level2 },
-                new WSChannel() { Name = WSChannelNames.Ticker }
-            };          
-
             if (key != null && secret != null && passphrase != null)
             {
                 string timestamp = DateTime.UtcNow.ToUnixSeconds().ToString();

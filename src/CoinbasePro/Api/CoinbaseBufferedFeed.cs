@@ -16,16 +16,16 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
 
         public CoinbaseFeed InternalFeed { get; } = null;
 
-        public CoinbaseBufferedFeed(string endPoint, string key, string secret, string passPhrase, WebProxy proxy = null)
+        public CoinbaseBufferedFeed(string endPoint, string key, string secret, string passPhrase, WSChannel[] channels = null, WebProxy proxy = null)
         {
             StartDispatcher();
-            InternalFeed = new CoinbaseFeed(endPoint, key, secret, passPhrase, proxy);
+            InternalFeed = new CoinbaseFeed(endPoint, key, secret, passPhrase, channels, proxy);
             InternalFeed.MessageReceived += Stream_MessageReceived;
         }
 
-        public async Task OpenAsync(string endPoint, string[] products)
+        public async Task OpenAsync(string[] products)
         {
-            await InternalFeed.OpenAsync(endPoint, products);
+            await InternalFeed.OpenAsync(products);
         }       
 
         public void Dispose()

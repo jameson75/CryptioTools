@@ -239,11 +239,40 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
         #endregion
 
         #region Margin
-        public string GetMarginProfile()
+        public async Task<MarginProfileResult> GetMarginProfileAsync(string productId)
         {
-            string requestPath = "/margin/profile_information";
-            var jsonResult = SendRequest(null, requestPath, HttpMethodNames.GET);
-            return jsonResult;
+            string requestPath = UrlQueryStringAppender.Append("/margin/profile_information", new { product_id = productId });
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<MarginProfileResult>(result.Content);
+        }
+
+        public MarginProfileResult GetMarginProfile(string productId)
+        {
+            return GetMarginProfileAsync(productId).GetAwaiter().GetResult();
+        }
+
+        public async Task<BuyingPowerResult> GetBuyingPowerAsync(string productId)
+        {
+            string requestPath = UrlQueryStringAppender.Append("/margin/buying_power", new { product_id = productId });
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<BuyingPowerResult>(result.Content);
+        }
+
+        public BuyingPowerResult GetBuyingPower(string productId)
+        {
+            return GetBuyingPowerAsync(productId).GetAwaiter().GetResult();
+        }
+
+        public async Task<MarginStatusResult> GetMarginStatusAsync()
+        {
+            string requestPath = "/margin/status";
+            var result = await SendRequestAsync(null, requestPath, HttpMethodNames.GET);
+            return JsonConvert.DeserializeObject<MarginStatusResult>(result.Content);
+        }
+
+        public MarginStatusResult GetMarginStatus()
+        {
+            return GetMarginStatusAsync().GetAwaiter().GetResult();
         }
         #endregion
 
@@ -362,9 +391,8 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
             string url = $"{endPoint}/{requestPath}";
             string timeStamp = DateTime.UtcNow.ToUnixSeconds().ToString();
             string signature = CoinbaseRequestSignature.Generate(timeStamp, "/" + requestPath, content, Secret, method);
-            string before = null;
-            string after = null;
-
+            string after;
+            string before;
             try
             {
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
@@ -386,7 +414,7 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
                     requestStream.Write(System.Text.Encoding.ASCII.GetBytes(content), 0, content.Length);
                 }
 
-                HttpWebResponse webResponse = (HttpWebResponse) await webRequest.GetResponseAsync();
+                HttpWebResponse webResponse = (HttpWebResponse)await webRequest.GetResponseAsync();
                 using (Stream responseStream = webResponse.GetResponseStream())
                 {
                     using StreamReader reader = new StreamReader(responseStream, Encoding.Default);
