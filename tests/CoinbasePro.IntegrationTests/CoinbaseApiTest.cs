@@ -11,8 +11,9 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
 {
     public class CoinbaseApiTest
     {
-        private const string CoinbaseRestEndpoint = "https://api-public.sandbox.pro.coinbase.com";       
+        private const string CoinbaseRestEndpoint = "https://api-public.sandbox.pro.coinbase.com";
 
+        #region Market Data Tests
         [Fact]
         public void WhenSingleProductRequested_ThenResponseHasProduct()
         {
@@ -60,7 +61,9 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
             page.Trades.All(x => x.Price > 0).Should().BeTrue();
             page.Trades.All(x => x.Size > 0).Should().BeTrue();
         }
+        #endregion
 
+        #region Account Tests
         [Fact]
         public void WhenAllAccountsRequested_ThenResponseHasAccounts()
         {
@@ -88,7 +91,9 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
             //Assert            
             holds.Holds.IsUniqueOn(x => x.Id).Should().BeTrue();
         }
+        #endregion
 
+        #region Orders Tests
         [Fact]
         public void WhenOrderPlaced_ThenResponseHasOrderId()
         {
@@ -129,7 +134,9 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
             //Assert          
             orders.Should().NotBeEmpty();
         }
+        #endregion
 
+        #region Fills Tests
         /// <remarks>
         /// It's assumed that the sandbox environment contains at least one fill in BTC-USD
         /// </remarks>
@@ -145,6 +152,39 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
             //Assert          
             fills.Should().NotBeEmpty();
         }
+        #endregion
+
+        #region Margin Tests
+        /* Coinbase has disabled margin trading. These tests will fail with 404 - Route not found.
+        [Fact]
+        public void WhenMarginProfileQueried_ThenResponseHasProfile()
+        {
+            //Arrange            
+            CoinbaseApi sut = CreateApi();
+            const string productId = "BTC-USD";
+
+            //Act
+            var profile = sut.GetMarginProfile(productId);
+
+            //Assert          
+            profile.Should().NotBeNull();      
+        }
+
+        [Fact]
+        public void WhenMarginBuyingPowerQueried_ThenResponseHasBuyingPower()
+        {
+            //Arrange            
+            CoinbaseApi sut = CreateApi();
+            const string productId = "BTC-USD";
+
+            //Act            
+            var power = sut.GetBuyingPower(productId);
+
+            //Assert       
+            power.Should().NotBeNull();
+        }
+        */
+        #endregion
 
         /// <summary>
         /// Tears down temporary orders created during test.
