@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CipherPark.ExchangeTools.Utility</RootNamespace>
-    <Version>0.0.8</Version>
+    <Version>0.0.9</Version>
     <PackageId>CipherPark.ExchangeTools.Utility</PackageId>
     <Authors>Eugene Adams</Authors>
     <Company>Cipher Park</Company>

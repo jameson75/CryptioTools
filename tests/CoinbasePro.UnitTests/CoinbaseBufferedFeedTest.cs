@@ -33,7 +33,7 @@ namespace CoinbasePro.UnitTests
             var config = builder.Build();
 
             ExchangeCredentialsManager manager = new ExchangeCredentialsManager(config);
-            var credentials = manager.GetCredentials();
+            var credentials = manager.GetCredentials(ExchangeCredentialsStore.CoinbaseProSandbox);
 
             return credentials;
         }

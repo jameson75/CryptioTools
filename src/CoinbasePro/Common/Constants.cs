@@ -34,6 +34,7 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Common
         public const string Match = "match";
         public const string Change = "change";
         public const string Activate = "activate";
+        public const string Status = "status";
     }
 
     public static class WSRequestTypes

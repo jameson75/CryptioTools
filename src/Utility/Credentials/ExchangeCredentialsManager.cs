@@ -4,7 +4,7 @@ namespace CipherPark.ExchangeTools.Utility.Credentials
 {
     public class ExchangeCredentialsManager
     {
-        private const string ExchangeCredentialsSectionName = "ExchangeTools:ExchangeCredentials";
+        private const string ExchangeCredentialsSectionRoot = "ExchangeTools:Credentials";
         private readonly IConfiguration config = null;
 
         public ExchangeCredentialsManager(IConfiguration config)
@@ -12,10 +12,11 @@ namespace CipherPark.ExchangeTools.Utility.Credentials
             this.config = config;
         }
 
-        public ExchangeCredentials GetCredentials()
+        public ExchangeCredentials GetCredentials(ExchangeCredentialsStore store)
         {
             var credentials = new ExchangeCredentials();
-            var section = config.GetSection(ExchangeCredentialsSectionName);
+            var sectionName = $"{ExchangeCredentialsSectionRoot}:{store}";
+            var section = config.GetSection(sectionName);
             if (section != null)
                 section.Bind(credentials);        
             return credentials;

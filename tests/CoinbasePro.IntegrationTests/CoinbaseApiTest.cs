@@ -207,7 +207,7 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
             var config = builder.Build();
             
             ExchangeCredentialsManager manager = new ExchangeCredentialsManager(config);
-            var credentials = manager.GetCredentials();
+            var credentials = manager.GetCredentials(ExchangeCredentialsStore.CoinbaseProSandbox);
            
             var api = new CoinbaseApi(CoinbaseRestEndpoint,
                                    credentials.ApiKey,

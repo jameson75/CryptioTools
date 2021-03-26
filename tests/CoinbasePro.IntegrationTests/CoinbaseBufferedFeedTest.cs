@@ -27,7 +27,7 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
             //Act
             sut.MessageReceived += (s, m) =>
             {
-                if (messageProductId == null && m.Type == WSChannelNames.Ticker)
+                if (messageProductId == null && m.Type == WSMessageTypes.Ticker)
                 {
                     messageProductId = m.ProductId;
                     messageReceivedEvent.Set();
@@ -83,7 +83,7 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
             var config = builder.Build();
 
             ExchangeCredentialsManager manager = new ExchangeCredentialsManager(config);
-            var credentials = manager.GetCredentials();
+            var credentials = manager.GetCredentials(ExchangeCredentialsStore.CoinbaseProSandbox);
 
             var feed = new CoinbaseBufferedFeed(CoinbaseWebsocketEndpoint,
                                    credentials.ApiKey,
