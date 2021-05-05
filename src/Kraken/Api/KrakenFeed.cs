@@ -2,52 +2,39 @@
 using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json;
-using CipherPark.ExchangeTools.CoinbasePro.Models;
-using CipherPark.ExchangeTools.CoinbasePro.Common;
 using CipherPark.ExchangeTools.Utility;
 
 namespace CipherPark.ExchangeTools.CoinbasePro.Api
 {
-    public class CoinbaseFeed : ExchangeFeed
+    public class KrakenFeed : ExchangeFeed
     {
         public string EndPoint { get; }
-        public string Key { get; }
-        public string Secret { get; }
-        public string Passphrase { get; }
-        public WebProxy Proxy { get; }
-        public WSChannel[] Channels { get; }
+        public string Token { get; }
+        public WebProxy Proxy { get; }       
 
-        public static readonly WSChannel[] DefaultChannels = new[]
-        {
-                new WSChannel() { Name = WSChannelNames.User },
-                new WSChannel() { Name = WSChannelNames.Heartbeat },
-                new WSChannel() { Name = WSChannelNames.Level2 },
-                new WSChannel() { Name = WSChannelNames.Ticker }
-        };
-
-        public CoinbaseFeed(string endPoint, string key, string secret, string passPhrase, WSChannel[] channels = null, WebProxy proxy = null)
-        {
-            Key = key;
-            Secret = secret;
-            Passphrase = passPhrase;
+        public KrakenFeed(string endPoint, string token, WebProxy proxy = null)
+        {            
             EndPoint = endPoint;
-            Proxy = proxy;
-            Channels = channels ?? DefaultChannels;
+            Token = token; 
+            Proxy = proxy;            
         }
 
         public async Task OpenAsync(string[] products)
         {
-            string wsUrl = EndPoint;            
-            string request = CreateSubscriptionRequest(Key, Secret, Passphrase, products, Channels);           
+            string wsUrl = EndPoint;
+            string request = null;
             await OpenAsync(wsUrl, request, Proxy);            
         }
 
         protected override void OnRawMessageReceived(string response)
         {
+            /*
             WSChannelMessage message = JsonConvert.DeserializeObject<WSChannelMessage>(response);
             OnMessageReceived(message);
+            */
         }
 
+        /*
         protected void OnMessageReceived(WSChannelMessage message)
         {
             this.MessageReceived?.Invoke(this, message);
@@ -84,5 +71,6 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
                     });
             }
         }
+        */
     }
 }

@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinbasePro.UnitTests", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinbasePro.IntegrationTests", "..\tests\CoinbasePro.IntegrationTests\CoinbasePro.IntegrationTests.csproj", "{6B68B709-233E-4727-BE9B-AC5A5F7E5D73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kraken", "Kraken\Kraken.csproj", "{BC0772B3-8AC2-4878-ABB7-F00F45056D76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kraken.IntegrationTests", "..\tests\Kraken.IntegrationTests\Kraken.IntegrationTests.csproj", "{C95A37B2-5BDD-4EE3-9C5D-729A4464935A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,14 @@ Global
 		{6B68B709-233E-4727-BE9B-AC5A5F7E5D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B68B709-233E-4727-BE9B-AC5A5F7E5D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B68B709-233E-4727-BE9B-AC5A5F7E5D73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC0772B3-8AC2-4878-ABB7-F00F45056D76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC0772B3-8AC2-4878-ABB7-F00F45056D76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC0772B3-8AC2-4878-ABB7-F00F45056D76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC0772B3-8AC2-4878-ABB7-F00F45056D76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C95A37B2-5BDD-4EE3-9C5D-729A4464935A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C95A37B2-5BDD-4EE3-9C5D-729A4464935A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C95A37B2-5BDD-4EE3-9C5D-729A4464935A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C95A37B2-5BDD-4EE3-9C5D-729A4464935A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +61,7 @@ Global
 		{5BA16E25-C37C-47C3-9B33-E5E20068E199} = {38D3A4C5-7C3A-4065-9353-17E025201DBB}
 		{9AE1D5B7-54B2-4E03-A1C0-8BE07951CBC3} = {38D3A4C5-7C3A-4065-9353-17E025201DBB}
 		{6B68B709-233E-4727-BE9B-AC5A5F7E5D73} = {38D3A4C5-7C3A-4065-9353-17E025201DBB}
+		{C95A37B2-5BDD-4EE3-9C5D-729A4464935A} = {38D3A4C5-7C3A-4065-9353-17E025201DBB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BF5C5A6F-DDC0-40EF-81D3-9E9B6C352AA3}

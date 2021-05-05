@@ -19,27 +19,23 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
         {
             //Arrange            
             CoinbaseBufferedFeed sut = CreateFeed();
-            string expectedProductId = "BTC-USD";
+            string productId = "BTC-USD";
             ManualResetEvent messageReceivedEvent = new ManualResetEvent(false);
-            int timeoutLength = 300; //ms;
-            string messageProductId = null;
+            int timeoutLength = 3000; //ms;          
 
             //Act
             sut.MessageReceived += (s, m) =>
             {
-                if (messageProductId == null && m.Type == WSMessageTypes.Ticker)
-                {
-                    messageProductId = m.ProductId;
+                if (m.Type == WSMessageTypes.Heartbeat)
+                {                   
                     messageReceivedEvent.Set();
                 }
             };
-
-            sut.OpenAsync(new[] { expectedProductId }).GetAwaiter().GetResult();
+            sut.OpenAsync(new[] { productId }).GetAwaiter().GetResult();
             bool messageReceivedEventSet = messageReceivedEvent.WaitOne(timeoutLength);
 
             //Assert           
-            messageReceivedEventSet.Should().BeTrue();
-            messageProductId.Should().Be(expectedProductId);
+            messageReceivedEventSet.Should().BeTrue();           
         }
 
         [Theory]
@@ -51,7 +47,7 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
             CoinbaseBufferedFeed sut = CreateFeed();
             string expectedProductId = "BTC-USD";
             ManualResetEvent messageReceivedEvent = new ManualResetEvent(false);
-            int timeoutLength = 300; //ms;
+            int timeoutLength = 3000; //ms;
             string messageProductId = null;
 
             //Act
@@ -63,7 +59,6 @@ namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
                     messageReceivedEvent.Set();
                 }
             };
-
             sut.OpenAsync(new[] { expectedProductId }).GetAwaiter().GetResult();
             bool messageReceivedEventSet = messageReceivedEvent.WaitOne(timeoutLength);
 
