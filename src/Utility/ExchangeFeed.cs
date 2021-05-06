@@ -6,16 +6,31 @@ using System.Net;
 
 namespace CipherPark.ExchangeTools.Utility
 {
-    public abstract class ExchangeFeed
+    public abstract class ExchangeFeed : IDisposable
     {
+        private ClientWebSocket client;
+
+        protected bool IsOpen
+        {
+            get { return client != null; }
+        }
+
+        protected async Task SendAsync(string content)
+        {
+            if (client == null)
+                throw new InvalidOperationException("Client not created.");    
+            var payLoad = new ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(content));
+            await client.SendAsync(payLoad, WebSocketMessageType.Text, true, CancellationToken.None);
+        }        
+
         protected async Task OpenAsync(string wsUrl, string content, WebProxy webProxy = null)
         {
             WebSocket client = new ClientWebSocket();
             if (webProxy != null)
                 ((ClientWebSocket)client).Options.Proxy = webProxy;
-            await ((ClientWebSocket)client).ConnectAsync(new Uri(wsUrl), CancellationToken.None);       
-            var payLoad = new ArraySegment<byte>(System.Text.Encoding.UTF8.GetBytes(content));
-            await client.SendAsync(payLoad, WebSocketMessageType.Text, true, CancellationToken.None);
+            await ((ClientWebSocket)client).ConnectAsync(new Uri(wsUrl), CancellationToken.None);         
+            if (content != null)
+                await SendAsync(content);            
             new Thread(async () =>
             {
                 while (true)
@@ -46,7 +61,16 @@ namespace CipherPark.ExchangeTools.Utility
         }
 
         protected virtual void OnRawMessageReceived(string response) { }
-        
+
+        public virtual void Dispose()
+        {
+            if (client != null)
+            {
+                client.Dispose();
+                client = null;
+            }
+        }
+
         public event Action<object, string> RawMessageRecieved;        
     }
 }
