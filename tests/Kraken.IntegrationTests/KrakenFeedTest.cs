@@ -49,9 +49,10 @@ namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
             };
             sut.SubscribeAsync(channelName).GetAwaiter().GetResult();
             bool messageReceivedEventSet = messageReceivedEvent.WaitOne(timeoutLength);
+            sut.Dispose();
 
             //Assert           
-            messageReceivedEventSet.Should().BeTrue();
+            messageReceivedEventSet.Should().BeTrue();           
         }
     }
 }

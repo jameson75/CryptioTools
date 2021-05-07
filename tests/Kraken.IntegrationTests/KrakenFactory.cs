@@ -30,7 +30,7 @@ namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
         {
             KrakenApi api = CreateApi();
             var tokenResponse = api.GetWebSocketsToken();
-            tokenResponse.Error.Should().BeNull();
+            tokenResponse.Result.Should().NotBeNull();
             var token = tokenResponse.Result.Token;
             var feed = new KrakenFeed(WebSocketsAuthProductionEndPoint, token, null);
             return feed;
