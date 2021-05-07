@@ -36,10 +36,9 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
         }
 
         public async Task OpenAsync(string[] products)
-        {
-            string wsUrl = EndPoint;            
+        {                     
             string request = CreateSubscriptionRequest(Key, Secret, Passphrase, products, Channels);           
-            await OpenAsync(wsUrl, request, Proxy);            
+            await OpenAsync(EndPoint, request, Proxy);            
         }
 
         protected override void OnRawMessageReceived(string response)

@@ -50,7 +50,7 @@ namespace CipherPark.ExchangeTools.Kraken.Api
             public const string WalletTransfer = "WalletTransfer";
             public const string GetWebSocketsToken = "GetWebSocketsToken";
         }
-
+        
         public string ApiKey { get; }
         public string Secret { get; }
         public string ApiDomain { get; }
@@ -178,10 +178,20 @@ namespace CipherPark.ExchangeTools.Kraken.Api
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public object GetTradesHistory(TradesHistoryRequest request)
+        public TradesHistoryResponse GetTradesHistory(TradesHistoryRequest request)
         {
             var jsonResult = SendPrivateRequest(UrlQueryStringSerializer.SerializeObject(request), ApiRoute.TradesHistory);
             return JsonConvert.DeserializeObject<TradesHistoryResponse>(jsonResult);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public WebSocketsTokenResponse GetWebSocketsToken()
+        {
+            var jsonResult = SendPrivateRequest(null, ApiRoute.GetWebSocketsToken);
+            return JsonConvert.DeserializeObject<WebSocketsTokenResponse>(jsonResult);
         }
 
         /// <summary>
@@ -228,7 +238,11 @@ namespace CipherPark.ExchangeTools.Kraken.Api
                 if (isPrivateEndPoint)
                 {
                     long nonce = DateTime.UtcNow.ToUnixMilliseconds();
-                    body = "nonce=" + nonce + "&" + nameValues;
+                    body = "nonce=" + nonce;
+                    if (nameValues != null)
+                    {
+                        body += "&" + nameValues;
+                    }
                     string signature = CreateSignature(Secret, nonce, body, $"/{ApiVersion}/{apiAccess}/{apiRoute}");
                     webRequest.Headers.Add("API-Key", ApiKey);
                     webRequest.Headers.Add("API-Sign", signature);

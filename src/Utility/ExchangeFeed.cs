@@ -25,10 +25,10 @@ namespace CipherPark.ExchangeTools.Utility
 
         protected async Task OpenAsync(string wsUrl, string content, WebProxy webProxy = null)
         {
-            WebSocket client = new ClientWebSocket();
+            client = new ClientWebSocket();
             if (webProxy != null)
-                ((ClientWebSocket)client).Options.Proxy = webProxy;
-            await ((ClientWebSocket)client).ConnectAsync(new Uri(wsUrl), CancellationToken.None);         
+                client.Options.Proxy = webProxy;
+            await client.ConnectAsync(new Uri(wsUrl), CancellationToken.None);         
             if (content != null)
                 await SendAsync(content);            
             new Thread(async () =>

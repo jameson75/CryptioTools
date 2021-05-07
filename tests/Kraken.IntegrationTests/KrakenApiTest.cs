@@ -1,21 +1,16 @@
 using System;
 using Xunit;
-using Microsoft.Extensions.Configuration;
-using CipherPark.ExchangeTools.Kraken.Api;
 using CipherPark.ExchangeTools.Kraken.Models;
-using CipherPark.ExchangeTools.Utility.Credentials;
 using FluentAssertions;
 
-namespace Kraken.IntegrationTests
+namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
 {
     public class KrakenApiTest
     {
-        private const string KrakenRestEndpoint = "https://api.kraken.com";        
-
         [Fact]
         public void WhenTimeRequested_ThenResponseHasTime()
         {
-            var api = CreateApi();
+            var api = KrakenFactory.CreateApi();
 
             var reponse = api.GetTime();
 
@@ -25,28 +20,24 @@ namespace Kraken.IntegrationTests
         [Fact]
         public void WhenTradesHistory_ThenResponseHasTradeHistory()
         {
-            var api = CreateApi();
+            var api = KrakenFactory.CreateApi();
 
             var reponse = api.GetTradesHistory(new TradesHistoryRequest
             {
                 Type = "all"
             });
 
-            reponse.Should().NotBeNull();
+            reponse.Result.Should().NotBeNull();
         }
 
-        private static KrakenApi CreateApi()
+        [Fact]
+        public void WhenGetWebSocketsToken_ThenResponseHasToken()
         {
-            ConfigurationBuilder builder = new ConfigurationBuilder();
-            builder.AddEnvironmentVariables();
-            var config = builder.Build();
+            var api = KrakenFactory.CreateApi();
 
-            ExchangeCredentialsManager manager = new ExchangeCredentialsManager(config);
-            var credentials = manager.GetCredentials(ExchangeCredentialsStore.Kraken);
+            var reponse = api.GetWebSocketsToken();
 
-            return new KrakenApi(KrakenRestEndpoint,
-                                 credentials.ApiKey,
-                                 credentials.ApiSecret);                                 
-        }
+            reponse.Result.Should().NotBeNull();
+        }        
     }
 }

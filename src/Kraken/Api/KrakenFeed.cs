@@ -2,9 +2,11 @@
 using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using CipherPark.ExchangeTools.Utility;
+using CipherPark.ExchangeTools.Kraken.Models.Websockets;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Api
+namespace CipherPark.ExchangeTools.Kraken.Api
 {
     public class KrakenFeed : ExchangeFeed
     {
@@ -25,126 +27,158 @@ namespace CipherPark.ExchangeTools.CoinbasePro.Api
             {
                 Event = "ping",
                 ReqId = correlationId,
-            };
-            var content = JsonConvert.SerializeObject(request);
-            await SendContentAsync(content);
+            };            
+            await SendRequestAsync(request);
         }
 
-        private async Task SendContentAsync(string content)
+        public async Task SubscribeAsync(string name, 
+                                         string[] pairs = null, 
+                                         int? depth = null,
+                                         int? interval = null, 
+                                         bool? rateCounter = null, 
+                                         bool? snapShot = null,  
+                                         int? correlationId = null)
         {
+            WSSubscribeRequest request = new WSSubscribeRequest
+            {
+                Event = "subscribe",
+                ReqId = correlationId,
+                Pair = pairs,
+                Subscription = new Subscription
+                {
+                    Depth = depth,
+                    Interval = interval,
+                    Name = name,
+                    RateCounter = rateCounter,
+                    Snapshot = snapShot,
+                    Token = Token,
+                }
+            };
+            await SendRequestAsync(request);
+        }
+
+        public async Task UnsubscribeAsync(string channelId, string[] pairs = null,  int? correlationId = null)
+        {
+            WSUnsubscribeRequest request = new WSUnsubscribeRequest
+            {
+                Event = "unsubscribe",
+                ReqId = correlationId,
+                ChannelId = channelId,
+                Pair = pairs
+            };
+            await SendRequestAsync(request);
+        }
+
+        public async Task AddOrderAsync()
+        {
+            await Task.CompletedTask;
+            throw new NotImplementedException();
+        }
+
+        public async Task CancelOrderAsync()
+        {
+            await Task.CompletedTask;
+            throw new NotImplementedException();
+        }
+
+        public async Task CancelAllAsync()
+        {
+            await Task.CompletedTask;
+            throw new NotImplementedException();
+        }
+
+        public async Task CancelAllOrdersAfter()
+        {
+            await Task.CompletedTask;
+            throw new NotImplementedException();
+        }
+
+        private async Task SendRequestAsync(WSRequest request)
+        {
+            string content = JsonConvert.SerializeObject(request, Formatting.None, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+            });
+
             if (!IsOpen)
                 await OpenAsync(EndPoint, content, Proxy);
             else
                 await SendAsync(content);
-        }
+        }       
 
         protected override void OnRawMessageReceived(string response)
         {
-            /*
-            WSChannelMessage message = JsonConvert.DeserializeObject<WSChannelMessage>(response);
-            OnMessageReceived(message);
-            */
+            JObject reponseObj = JObject.Parse(response);
+            string @event = reponseObj.Value<string>("event");
+            switch (@event)
+            {
+                case "pong":
+                    var pongMessage = JsonConvert.DeserializeObject<WSMessage>(response);
+                    OnPong(pongMessage);
+                    break;
+                case "heartbeat":
+                    var heartbeatMessage = JsonConvert.DeserializeObject<WSMessage>(response);
+                    OnHeartbeat(heartbeatMessage);
+                    break;
+                case "systemStatus":
+                    var systemStatusMessage = JsonConvert.DeserializeObject<WSSystemStatusMessage>(response);
+                    OnSystemStatus(systemStatusMessage);
+                    break;
+                case "subscriptionStatus":
+                    var subscriptionStatusMessage = JsonConvert.DeserializeObject<WSSubscriptionStatusMessage>(response);
+                    OnSubscriptionStatus(subscriptionStatusMessage);
+                    break;
+                case "ticker":
+                    break;
+                case "ohlc":
+                    break;
+                case "trade":
+                    break;
+                case "spread":
+                    break;
+                case "book":
+                    break;
+                case "ownTrades":
+                    break;
+                case "openOrders":
+                    break;
+                case "addOrderStatus":
+                    break;
+                case "cancelOrderStatus":
+                    break;
+                case "cancelAllStatus":
+                    break;
+                case "cancelAllOrdersAfterStatus":
+                    break;
+            }
         }
 
-        /*
-        protected void OnMessageReceived(WSChannelMessage message)
+        private void OnPong(WSMessage message)
         {
-            this.MessageReceived?.Invoke(this, message);
-        }     
-
-        public event Action<object, WSChannelMessage> MessageReceived;
-
-        private static string CreateSubscriptionRequest(string key, string secret, string passphrase, string[] products, WSChannel[] channels)
-        {
-            if (key != null && secret != null && passphrase != null)
-            {
-                string timestamp = DateTime.UtcNow.ToUnixSeconds().ToString();
-                string requestPath = "/users/self/verify";
-                return JsonConvert.SerializeObject(
-                    new WSAuthenticatedRequest
-                    {
-                        Type = WSRequestTypes.Subscribe,
-                        ProductIds = products,
-                        Channels = channels,
-                        Key = key,
-                        Passphrase = passphrase,
-                        Timestamp = timestamp,
-                        Signature = CoinbaseRequestSignature.Generate(timestamp, requestPath, null, secret, HttpMethodNames.GET)
-                    });
-            }
-            else
-            {
-                return JsonConvert.SerializeObject(
-                    new WSRequest
-                    {
-                        Type = WSRequestTypes.Subscribe,
-                        ProductIds = products,
-                        Channels = channels,
-                    });
-            }
+            PongReceived?.Invoke(this, message);
         }
-        */
-    }
 
-    public class WSMessage
-    {
-        public string Event { get; set; }
-        public int? ReqId { get; set; }
-    }    
+        private void OnHeartbeat(WSMessage message)
+        {
+            HeartbeatReceived?.Invoke(this, message);
+        }
 
-    public class WSRequest : WSMessage  {  }
+        private void OnSystemStatus(WSSystemStatusMessage message)
+        {
+            SystemStatusReceived?.Invoke(this, message);
+        }
 
-    public class WSSystemStatusMessage : WSMessage
-    {
-        [JsonProperty("connectionID")]
-        public int ConnectionID { get; set; }
-        public string Status { get; set; }
-        public string Version { get; set; }
-    }
+        private void OnSubscriptionStatus(WSSubscriptionStatusMessage message)
+        {
+            SubscriptionStatusReceived?.Invoke(this, message);
+        }
 
-    public class WSSubscribeRequest : WSRequest
-    {   
-        public string[] Pair { get; set; }
-        public Subscription Subscription { get; set; }       
-    }
+        public event Action<object, WSMessage> PongReceived;
 
-    public class Subscription
-    {
-        public int Depth { get; set; }
-        public int Interval { get; set; }
-        public string Name { get; set; }
-        public bool RateCounter { get; set; }
-        public bool Snapshot { get; set; }
-        public string Token { get; set; }        
-    }
+        public event Action<object, WSMessage> HeartbeatReceived;
 
-    public class WSUnsubscribeRequest : WSSubscribeRequest
-    {
-        [JsonProperty("channelID")]
-        public string ChannelId { get; set; }
-    }
+        public event Action<object, WSSystemStatusMessage> SystemStatusReceived;
 
-    public class WSSubscriptionStatusMessage
-    {
-        [JsonProperty("channelName")]
-        public string ChannelName { get; set; }
-        public string[] Pair { get; set; }
-        public string Status { get; set; }
-        public Subscription Subscription { get; set; }
-        public OneOf OneOf { get; set; }
-    }
-
-    public class OneOf
-    {
-        [JsonProperty("errorMessage")]
-        public string ErrorMessage { get; set; }
-        [JsonProperty("channelID")]
-        public string ChannelId { get; set; }
-    }
-
-    public class WSTickerMessage
-    {
-        [JsonProperty("channelID")]
-        public string ChannelId { get; set; }
-    }
+        public event Action<object, WSSubscriptionStatusMessage> SubscriptionStatusReceived;
+    }   
 }
