@@ -23,7 +23,7 @@ namespace CipherPark.ExchangeTools.Kraken.Models.Websockets
         [JsonProperty("t")]
         public int[] TradeCount { get; set; }
         [JsonIgnore]
-        public string ChannelId { get; set; }
+        public int ChannelId { get; set; }
         [JsonIgnore]
         public string Pair { get; set; }
         [JsonIgnore]

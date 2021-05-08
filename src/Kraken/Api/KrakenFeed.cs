@@ -116,17 +116,28 @@ namespace CipherPark.ExchangeTools.Kraken.Api
                 if (response[1] == '[')
                     @event = jObjects[1].ToObject<string>();
                 else
-                    @event = jObjects[2].ToObject<string>();
+                {
+                    var eventCaption = jObjects[2].ToObject<string>();
+                    @event = eventCaption.Split('-')[0];
+                }
                 switch(@event)
                 {             
                     case "ticker":
                         var tickerMessage = jObjects[1].ToObject<WSTickerMessage>();
-                        tickerMessage.ChannelId = jObjects[0].ToObject<string>();
+                        tickerMessage.ChannelId = jObjects[0].ToObject<int>();
                         tickerMessage.ChannelName = @event;
                         tickerMessage.Pair = jObjects[3].ToObject<string>();
                         OnTicker(tickerMessage);
                         break;
                     case "ohlc":
+                        var ohlcMessage = new WSOHLCMessage
+                        {
+                            ChannelId = jObjects[0].ToObject<int>(),                           
+                            Values = jObjects[1].ToObject<double[]>(),
+                            ChannelName = jObjects[2].ToObject<string>(),
+                            Pair = jObjects[3].ToObject<string>(),
+                        };
+                        OnOHLC(ohlcMessage);
                         break;
                     case "trade":
                         break;
@@ -199,6 +210,11 @@ namespace CipherPark.ExchangeTools.Kraken.Api
             TickerReceived?.Invoke(this, message);
         }
 
+        private void OnOHLC(WSOHLCMessage message)
+        {
+            OHLCReceived?.Invoke(this, message);
+        }
+
         public event Action<object, WSMessage> PongReceived;
 
         public event Action<object, WSMessage> HeartbeatReceived;
@@ -206,6 +222,8 @@ namespace CipherPark.ExchangeTools.Kraken.Api
         public event Action<object, WSSystemStatusMessage> SystemStatusReceived;
 
         public event Action<object, WSTickerMessage> TickerReceived;
+
+        public event Action<object, WSOHLCMessage> OHLCReceived;
 
         public event Action<object, WSSubscriptionStatusMessage> SubscriptionStatusReceived;
     }   

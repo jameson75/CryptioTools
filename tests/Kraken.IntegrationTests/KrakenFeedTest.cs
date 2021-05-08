@@ -76,5 +76,25 @@ namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
             //Assert           
             messageReceivedEventSet.Should().BeTrue();
         }
+
+        [Fact]
+        public void WhenOHLCSubscribedTo_ThenOHLCMessageReceived()
+        {
+            //Arrange                
+            KrakenFeed sut = KrakenFactory.CreateFeed();
+            ManualResetEvent messageReceivedEvent = new ManualResetEvent(false);
+
+            //Act
+            sut.OHLCReceived += (s, m) =>
+            {
+                messageReceivedEvent.Set();
+            };
+            sut.SubscribeAsync("ohlc", new[] { "BTC/USD" }).GetAwaiter().GetResult();
+            bool messageReceivedEventSet = messageReceivedEvent.WaitOne(Timeout);
+            sut.Dispose();
+
+            //Assert           
+            messageReceivedEventSet.Should().BeTrue();
+        }
     }
 }
