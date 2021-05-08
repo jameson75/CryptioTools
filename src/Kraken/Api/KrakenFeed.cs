@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using CipherPark.ExchangeTools.Utility;
 using CipherPark.ExchangeTools.Kraken.Models.Websockets;
+using System.Linq;
 
 namespace CipherPark.ExchangeTools.Kraken.Api
 {
@@ -108,48 +109,68 @@ namespace CipherPark.ExchangeTools.Kraken.Api
 
         protected override void OnRawMessageReceived(string response)
         {
-            JObject reponseObj = JObject.Parse(response);
-            string @event = reponseObj.Value<string>("event");
-            switch (@event)
+            string @event;
+            if (response[0] == '[')
             {
-                case "pong":
-                    var pongMessage = JsonConvert.DeserializeObject<WSMessage>(response);
-                    OnPong(pongMessage);
-                    break;
-                case "heartbeat":
-                    var heartbeatMessage = JsonConvert.DeserializeObject<WSMessage>(response);
-                    OnHeartbeat(heartbeatMessage);
-                    break;
-                case "systemStatus":
-                    var systemStatusMessage = JsonConvert.DeserializeObject<WSSystemStatusMessage>(response);
-                    OnSystemStatus(systemStatusMessage);
-                    break;
-                case "subscriptionStatus":
-                    var subscriptionStatusMessage = JsonConvert.DeserializeObject<WSSubscriptionStatusMessage>(response);
-                    OnSubscriptionStatus(subscriptionStatusMessage);
-                    break;
-                case "ticker":
-                    break;
-                case "ohlc":
-                    break;
-                case "trade":
-                    break;
-                case "spread":
-                    break;
-                case "book":
-                    break;
-                case "ownTrades":
-                    break;
-                case "openOrders":
-                    break;
-                case "addOrderStatus":
-                    break;
-                case "cancelOrderStatus":
-                    break;
-                case "cancelAllStatus":
-                    break;
-                case "cancelAllOrdersAfterStatus":
-                    break;
+                var jObjects = JArray.Parse(response).ToArray();
+                if (response[1] == '[')
+                    @event = jObjects[1].ToObject<string>();
+                else
+                    @event = jObjects[2].ToObject<string>();
+                switch(@event)
+                {             
+                    case "ticker":
+                        var tickerMessage = jObjects[1].ToObject<WSTickerMessage>();
+                        tickerMessage.ChannelId = jObjects[0].ToObject<string>();
+                        tickerMessage.ChannelName = @event;
+                        tickerMessage.Pair = jObjects[3].ToObject<string>();
+                        OnTicker(tickerMessage);
+                        break;
+                    case "ohlc":
+                        break;
+                    case "trade":
+                        break;
+                    case "spread":
+                        break;
+                    case "book":
+                        break;
+                    case "ownTrades":
+                        break;
+                    case "openOrders":
+                        break;
+                }
+            }
+            else
+            {
+                JObject reponseObj = JObject.Parse(response);
+                @event = reponseObj.Value<string>("event");
+                switch (@event)
+                {
+                    case "pong":
+                        var pongMessage = JsonConvert.DeserializeObject<WSMessage>(response);
+                        OnPong(pongMessage);
+                        break;
+                    case "heartbeat":
+                        var heartbeatMessage = JsonConvert.DeserializeObject<WSMessage>(response);
+                        OnHeartbeat(heartbeatMessage);
+                        break;
+                    case "systemStatus":
+                        var systemStatusMessage = JsonConvert.DeserializeObject<WSSystemStatusMessage>(response);
+                        OnSystemStatus(systemStatusMessage);
+                        break;
+                    case "subscriptionStatus":
+                        var subscriptionStatusMessage = JsonConvert.DeserializeObject<WSSubscriptionStatusMessage>(response);
+                        OnSubscriptionStatus(subscriptionStatusMessage);
+                        break;                               
+                    case "addOrderStatus":
+                        break;
+                    case "cancelOrderStatus":
+                        break;
+                    case "cancelAllStatus":
+                        break;
+                    case "cancelAllOrdersAfterStatus":
+                        break;
+                }
             }
         }
 
@@ -173,11 +194,18 @@ namespace CipherPark.ExchangeTools.Kraken.Api
             SubscriptionStatusReceived?.Invoke(this, message);
         }
 
+        private void OnTicker(WSTickerMessage message)
+        {
+            TickerReceived?.Invoke(this, message);
+        }
+
         public event Action<object, WSMessage> PongReceived;
 
         public event Action<object, WSMessage> HeartbeatReceived;
 
         public event Action<object, WSSystemStatusMessage> SystemStatusReceived;
+
+        public event Action<object, WSTickerMessage> TickerReceived;
 
         public event Action<object, WSSubscriptionStatusMessage> SubscriptionStatusReceived;
     }   

@@ -6,26 +6,16 @@ using CipherPark.ExchangeTools.Kraken.Api;
 
 namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
 {
-    public class KrakenFeedTest : IDisposable
+    public class KrakenFeedTest
     {
-        private KrakenFeed sut;
-
-        public KrakenFeedTest()
-        {
-            sut = KrakenFactory.CreateFeed();           
-        }
-
-        public void Dispose()
-        {
-           sut?.Dispose();
-        }
+        private const int Timeout = 3000;
 
         [Fact]
         public void WhenPingSent_ThenPongReceived()
         {
-            //Arrange                                  
-            ManualResetEvent messageReceivedEvent = new ManualResetEvent(false);
-            int timeoutLength = 3000; //ms;          
+            //Arrange    
+            KrakenFeed sut = KrakenFactory.CreateFeed();
+            ManualResetEvent messageReceivedEvent = new ManualResetEvent(false);               
 
             //Act
             sut.PongReceived += (s, m) =>
@@ -33,7 +23,8 @@ namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
                 messageReceivedEvent.Set();
             };
             sut.PingAsync().GetAwaiter().GetResult();
-            bool messageReceivedEventSet = messageReceivedEvent.WaitOne(timeoutLength);
+            bool messageReceivedEventSet = messageReceivedEvent.WaitOne(Timeout);
+            sut.Dispose();
 
             //Assert           
             messageReceivedEventSet.Should().BeTrue();
@@ -50,20 +41,40 @@ namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
         public void WhenSubscriptionSent_ThenSubscriptionStatusReceived(string channelName)
         {
             //Arrange                
+            KrakenFeed sut = KrakenFactory.CreateAuthenticatedFeed();
             ManualResetEvent messageReceivedEvent = new ManualResetEvent(false);
-            int timeoutLength = 3500; //ms;          
-
+           
             //Act
             sut.SubscriptionStatusReceived += (s, m) =>
             {
                 messageReceivedEvent.Set();
             };
             sut.SubscribeAsync(channelName).GetAwaiter().GetResult();
-            bool messageReceivedEventSet = messageReceivedEvent.WaitOne(timeoutLength);
-            //sut.Dispose();
+            bool messageReceivedEventSet = messageReceivedEvent.WaitOne(Timeout);
+            sut.Dispose();
 
             //Assert           
             messageReceivedEventSet.Should().BeTrue();           
+        }
+
+        [Fact]
+        public void WhenTickerSubscribedTo_ThenTickerMessageReceived()
+        {
+            //Arrange                
+            KrakenFeed sut = KrakenFactory.CreateFeed();
+            ManualResetEvent messageReceivedEvent = new ManualResetEvent(false);                      
+
+            //Act
+            sut.TickerReceived += (s, m) =>
+            {
+                messageReceivedEvent.Set();
+            };
+            sut.SubscribeAsync("ticker", new[] { "BTC/USD" }).GetAwaiter().GetResult();
+            bool messageReceivedEventSet = messageReceivedEvent.WaitOne(Timeout);
+            sut.Dispose();
+
+            //Assert           
+            messageReceivedEventSet.Should().BeTrue();
         }
     }
 }
