@@ -1,17 +1,29 @@
-﻿using Xunit;
+﻿using System;
 using System.Threading;
-using CipherPark.ExchangeTools.Kraken.Api;
+using Xunit;
 using FluentAssertions;
+using CipherPark.ExchangeTools.Kraken.Api;
 
 namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
 {
-    public class KrakenFeedTest
+    public class KrakenFeedTest : IDisposable
     {
+        private KrakenFeed sut;
+
+        public KrakenFeedTest()
+        {
+            sut = KrakenFactory.CreateFeed();           
+        }
+
+        public void Dispose()
+        {
+           sut?.Dispose();
+        }
+
         [Fact]
         public void WhenPingSent_ThenPongReceived()
         {
-            //Arrange                        
-            KrakenFeed sut = KrakenFactory.CreateFeed();
+            //Arrange                                  
             ManualResetEvent messageReceivedEvent = new ManualResetEvent(false);
             int timeoutLength = 3000; //ms;          
 
@@ -37,10 +49,9 @@ namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
         [InlineData("trade")]
         public void WhenSubscriptionSent_ThenSubscriptionStatusReceived(string channelName)
         {
-            //Arrange                        
-            KrakenFeed sut = KrakenFactory.CreateAuthenticatedFeed();
+            //Arrange                
             ManualResetEvent messageReceivedEvent = new ManualResetEvent(false);
-            int timeoutLength = 3000; //ms;          
+            int timeoutLength = 3500; //ms;          
 
             //Act
             sut.SubscriptionStatusReceived += (s, m) =>
@@ -49,7 +60,7 @@ namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
             };
             sut.SubscribeAsync(channelName).GetAwaiter().GetResult();
             bool messageReceivedEventSet = messageReceivedEvent.WaitOne(timeoutLength);
-            sut.Dispose();
+            //sut.Dispose();
 
             //Assert           
             messageReceivedEventSet.Should().BeTrue();           
