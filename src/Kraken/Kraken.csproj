@@ -4,6 +4,17 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CipherPark.ExchangeTools.Kraken</RootNamespace>
     <AssemblyName>ExchangeTools.Kraken</AssemblyName>
+    <Version>0.0.91</Version>
+    <Authors>Eugene Adams</Authors>
+    <Company>Cipher Park</Company>
+    <Product>Kraken .NET Core Client Library</Product>
+    <Description>Kraken .NET Core Client Library by Cipher Park</Description>
+    <PackageProjectUrl>https://github.com/jameson75/ExchangeTools</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jameson75/ExchangeTools</RepositoryUrl>
+    <PackageTags>Kraken Crypto Exchange Tools</PackageTags>
+    <Copyright></Copyright>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageId>CipherPark.ExchangeTools.Kraken</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +23,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Utility\Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CipherPark.ExchangeTools.Utility</RootNamespace>
-    <Version>0.0.9</Version>
+    <Version>0.0.91</Version>
     <PackageId>CipherPark.ExchangeTools.Utility</PackageId>
     <Authors>Eugene Adams</Authors>
     <Company>Cipher Park</Company>
@@ -14,6 +14,8 @@
     <RepositoryUrl>https://github.com/jameson75/ExchangeTools</RepositoryUrl>
     <PackageTags>ExchangeTools Utility</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>0.0.91.0</AssemblyVersion>
+    <FileVersion>0.0.91.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
