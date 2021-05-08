@@ -29,4 +29,23 @@ namespace CipherPark.ExchangeTools.Kraken.Models.Websockets
         [JsonIgnore]
         public string ChannelName { get; set; }
     }
+    
+    public static class TickerBidAskValueIndex
+    {
+        public const int BestPrice =        0;
+        public const int WholeLotVolume =   1;
+        public const int LotVolume =        2;
+    }
+
+    public static class TickerCloseValueIndex
+    {
+        public const int Price =        0;
+        public const int LotVolume =    1;
+    }
+
+    public static class TickerOHLVWTIndex
+    {
+        public const int ValueToday =   0;
+        public const int ValueLast24 =  1;
+    }   
 }
