@@ -38,6 +38,23 @@ namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
             var reponse = api.GetWebSocketsToken();
 
             reponse.Result.Should().NotBeNull();
-        }        
+        }
+
+        [Theory]
+        [InlineData("BTCUSD", 1)]
+        [InlineData("LTCUSD", 1)]
+        [InlineData("ETHUSD", 1)]
+        public void WhenGetOHLC_ThenResponseHasPrices(string pair, int interval)
+        {
+            var api = KrakenFactory.CreateApi();
+
+            var response = api.GetOHLC(new OHLCRequest()
+            {
+                Interval = interval,
+                Pair = pair,              
+            });
+
+            response.Result.Should().NotBeNull();
+        }
     }
 }

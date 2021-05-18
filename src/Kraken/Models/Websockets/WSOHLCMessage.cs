@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using CipherPark.ExchangeTools.Utility;
+using System;
+using System.Text.Json.Serialization;
 
 namespace CipherPark.ExchangeTools.Kraken.Models.Websockets
 {
@@ -14,7 +16,7 @@ namespace CipherPark.ExchangeTools.Kraken.Models.Websockets
         public string Pair { get; set; }
     }
 
-    public static class OHLCValueIndex
+    public static class WSOHLCValueIndex
     {
         public const int Time =     0;
         public const int ETime =    1;
@@ -25,5 +27,33 @@ namespace CipherPark.ExchangeTools.Kraken.Models.Websockets
         public const int VWAP =     6;
         public const int Volume =   7;
         public const int Count =    8;
+    }
+
+    public static class WSOHLCMessageExtensions
+    {
+        public static double Open(this WSOHLCMessage message)
+        {
+            return message.Values[WSOHLCValueIndex.Open];
+        }
+
+        public static double High(this WSOHLCMessage message)
+        {
+            return message.Values[WSOHLCValueIndex.High];
+        }
+
+        public static double Low(this WSOHLCMessage message)
+        {
+            return message.Values[WSOHLCValueIndex.Low];
+        }
+
+        public static double Close(this WSOHLCMessage message)
+        {
+            return message.Values[WSOHLCValueIndex.Close];
+        }
+
+        public static DateTime Time(this WSOHLCMessage message)
+        {
+            return UnixTimestampConverter.FromUnixSeconds((long)message.Values[WSOHLCValueIndex.Time]);
+        }
     }
 }

@@ -226,7 +226,7 @@ namespace CipherPark.ExchangeTools.Kraken.Api
             if (isPrivateEndPoint && (ApiKey == null || Secret == null))
                 throw new InvalidOperationException("Private endpoint invoked with no API Key and/or Secret specified");
 
-            url = string.IsNullOrEmpty(nameValues) && method == HttpMethodNames.GET ? endPoint + "?" + nameValues : endPoint;
+            url = !string.IsNullOrEmpty(nameValues) && method == HttpMethodNames.GET ? endPoint + "?" + nameValues : endPoint;
 
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
             webRequest.Method = method;
