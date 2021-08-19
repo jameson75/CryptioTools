@@ -10,7 +10,7 @@
     <Description>CoinbasePro .NET Core Client Library by Cipher Park</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/jameson75/ExchangeTools</PackageProjectUrl>
-    <Version>0.0.92</Version>
+    <Version>0.0.93</Version>
     <RepositoryUrl>https://github.com/jameson75/ExchangeTools</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>Coinbase CoinbasePro Crypto Exchange Tools</PackageTags>

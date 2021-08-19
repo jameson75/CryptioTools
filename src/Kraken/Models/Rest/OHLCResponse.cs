@@ -34,29 +34,47 @@ namespace CipherPark.ExchangeTools.Kraken.Models
 
     public static class OHLCResponseExtensions
     {
-        public static DateTime Time(this OHLCResponse response, int index)
+        public static DateTime Time(this OHLCResult result, int index)
         {
-            return UnixTimestampConverter.FromUnixSeconds((long)response.Result.Data.First().Value[index][OHLCValueIndex.Time]);
+            return UnixTimestampConverter.FromUnixSeconds((long)result.Data.First().Value[index][OHLCValueIndex.Time]);
         }
 
-        public static double Open(this OHLCResponse response, int index)
+        public static double Open(this OHLCResult result, int index)
         {
-            return Convert.ToDouble(response.Result.Data.First().Value[index][OHLCValueIndex.Open]);
+            return Convert.ToDouble(result.Data.First().Value[index][OHLCValueIndex.Open]);
         }
 
-        public static double High(this OHLCResponse response, int index)
+        public static double High(this OHLCResult result, int index)
         {
-            return Convert.ToDouble(response.Result.Data.First().Value[index][OHLCValueIndex.High]);
+            return Convert.ToDouble(result.Data.First().Value[index][OHLCValueIndex.High]);
         }
 
-        public static double Low(this OHLCResponse response, int index)
+        public static double Low(this OHLCResult result, int index)
         {
-            return Convert.ToDouble(response.Result.Data.First().Value[index][OHLCValueIndex.Low]);
+            return Convert.ToDouble(result.Data.First().Value[index][OHLCValueIndex.Low]);
         }
 
-        public static double Close(this OHLCResponse response, int index)
+        public static double Close(this OHLCResult result, int index)
         {
-            return Convert.ToDouble(response.Result.Data.First().Value[index][OHLCValueIndex.Close]);
+            return Convert.ToDouble(result.Data.First().Value[index][OHLCValueIndex.Close]);
         }
-    }        
+
+        public static int Count(this OHLCResult result)
+        {
+            return result.Data.First().Value.Length;
+        }
+    }
+
+    public static class OHLCInterval
+    {
+        public const int OnMinute = 1;
+        public const int FiveMinutes = 5;
+        public const int FifteenMinutes = 15;
+        public const int HalfHour = 30;
+        public const int OneHour = 60;
+        public const int FourHours = 240;
+        public const int OneDay = 1440;
+        public const int SevenDays = 10080;
+        public const int FifteenDays = 21600;
+    }
 }

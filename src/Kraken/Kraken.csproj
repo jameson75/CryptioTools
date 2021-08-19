@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CipherPark.ExchangeTools.Kraken</RootNamespace>
     <AssemblyName>ExchangeTools.Kraken</AssemblyName>
-    <Version>0.0.92</Version>
+    <Version>0.0.93</Version>
     <Authors>Eugene Adams</Authors>
     <Company>Cipher Park</Company>
     <Product>Kraken .NET Core Client Library</Product>
