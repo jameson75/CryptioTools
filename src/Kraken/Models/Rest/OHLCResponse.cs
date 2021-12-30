@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CipherPark.ExchangeTools.Utility;
+using CipherPark.CryptioTools.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace CipherPark.ExchangeTools.Kraken.Models
+namespace CipherPark.CryptioTools.Kraken.Models
 {
     public class OHLCResult
     {
@@ -47,7 +47,7 @@ namespace CipherPark.ExchangeTools.Kraken.Models
         public static double High(this OHLCResult result, int index)
         {
             return Convert.ToDouble(result.Data.First().Value[index][OHLCValueIndex.High]);
-        }
+        } 
 
         public static double Low(this OHLCResult result, int index)
         {

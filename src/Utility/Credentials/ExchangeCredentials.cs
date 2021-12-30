@@ -1,4 +1,4 @@
-﻿namespace CipherPark.ExchangeTools.Utility.Credentials
+﻿namespace CipherPark.CryptioTools.Utility.Credentials
 {
     public class ExchangeCredentials
     {

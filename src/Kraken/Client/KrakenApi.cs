@@ -5,10 +5,10 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
-using CipherPark.ExchangeTools.Kraken.Models;
-using CipherPark.ExchangeTools.Utility;
+using CipherPark.CryptioTools.Kraken.Models;
+using CipherPark.CryptioTools.Utility;
 
-namespace CipherPark.ExchangeTools.Kraken.Api
+namespace CipherPark.CryptioTools.Kraken.Api
 {
     public class KrakenApi
     {

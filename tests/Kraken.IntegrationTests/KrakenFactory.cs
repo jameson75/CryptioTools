@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
-using CipherPark.ExchangeTools.Kraken.Api;
-using CipherPark.ExchangeTools.Utility.Credentials;
+using CipherPark.CryptioTools.Kraken.Api;
+using CipherPark.CryptioTools.Utility.Credentials;
 using FluentAssertions;
 
-namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
+namespace CipherPark.CryptioTools.Kraken.IntegrationTests
 {
     public class KrakenFactory
     {

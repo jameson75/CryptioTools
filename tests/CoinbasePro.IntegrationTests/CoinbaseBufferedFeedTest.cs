@@ -3,12 +3,12 @@ using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 using FluentAssertions;
-using CipherPark.ExchangeTools.CoinbasePro.Api;
-using CipherPark.ExchangeTools.CoinbasePro.Common;
-using CipherPark.ExchangeTools.CoinbasePro.Models;
-using CipherPark.ExchangeTools.Utility.Credentials;
+using CipherPark.CryptioTools.CoinbasePro.Api;
+using CipherPark.CryptioTools.CoinbasePro.Common;
+using CipherPark.CryptioTools.CoinbasePro.Models;
+using CipherPark.CryptioTools.Utility.Credentials;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
+namespace CipherPark.CryptioTools.CoinbasePro.IntegrationTests
 {
     public class CoinbaseBufferedFeedTest
     {

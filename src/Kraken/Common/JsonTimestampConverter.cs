@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace CipherPark.ExchangeTools.Utility
+namespace CipherPark.CryptioTools.Utility
 {
     public class JsonTimestampConverter : CustomCreationConverter<DateTime>
     {

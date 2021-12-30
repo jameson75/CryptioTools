@@ -1,4 +1,4 @@
-﻿namespace CipherPark.ExchangeTools.Kraken.Models
+﻿namespace CipherPark.CryptioTools.Kraken.Models
 {
     public class CancelOrderResult
     {

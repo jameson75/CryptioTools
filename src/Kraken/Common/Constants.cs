@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CipherPark.ExchangeTools.Kraken
+namespace CipherPark.CryptioTools.Kraken
 {
     public static class InfoTypes
     {

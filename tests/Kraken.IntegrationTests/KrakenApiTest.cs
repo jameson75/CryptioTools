@@ -1,9 +1,9 @@
 using System;
 using Xunit;
-using CipherPark.ExchangeTools.Kraken.Models;
+using CipherPark.CryptioTools.Kraken.Models;
 using FluentAssertions;
 
-namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
+namespace CipherPark.CryptioTools.Kraken.IntegrationTests
 {
     public class KrakenApiTest
     {

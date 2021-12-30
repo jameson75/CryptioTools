@@ -1,5 +1,5 @@
-﻿using CipherPark.ExchangeTools.Utility;
-namespace CipherPark.ExchangeTools.Kraken.Models
+﻿using CipherPark.CryptioTools.Utility;
+namespace CipherPark.CryptioTools.Kraken.Models
 {
 
     public class RecentSpreadDataRequest

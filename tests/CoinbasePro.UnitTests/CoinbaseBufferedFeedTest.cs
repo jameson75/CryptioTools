@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using FluentAssertions;
 using Xunit;
-using CipherPark.ExchangeTools.CoinbasePro.Api;
-using CipherPark.ExchangeTools.Utility.Credentials;
+using CipherPark.CryptioTools.CoinbasePro.Api;
+using CipherPark.CryptioTools.Utility.Credentials;
 
 namespace CoinbasePro.UnitTests
 {

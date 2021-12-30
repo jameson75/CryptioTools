@@ -1,6 +1,6 @@
 using System;
 using Xunit;
-using CipherPark.ExchangeTools.Kraken.Models;
+using CipherPark.CryptioTools.Kraken.Models;
 using Moq;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -17,11 +17,11 @@ namespace Kraken.UnitTests
             var sut = JsonConvert.DeserializeObject<OHLCResponse>(jsonResult);
 
             //Act
-            var open = sut.Open(0);
-            var high = sut.High(0);
-            var low = sut.Low(1);
-            var close = sut.Close(1);
-            var time = sut.Time(1);
+            var open = sut.Result.Open(0);
+            var high = sut.Result.High(0);
+            var low = sut.Result.Low(1);
+            var close = sut.Result.Close(1);
+            var time = sut.Result.Time(1);
 
             //Assert
             open.Should().Be(114.51);

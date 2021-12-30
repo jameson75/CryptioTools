@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CipherPark.ExchangeTools.Utility
+namespace CipherPark.CryptioTools.Utility
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class UrlParameterAttribute

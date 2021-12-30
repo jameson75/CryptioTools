@@ -3,9 +3,9 @@ using System.Net;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CipherPark.ExchangeTools.CoinbasePro.Models;
+using CipherPark.CryptioTools.CoinbasePro.Models;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Api
+namespace CipherPark.CryptioTools.CoinbasePro.Api
 {
     public class CoinbaseBufferedFeed : IDisposable
     {

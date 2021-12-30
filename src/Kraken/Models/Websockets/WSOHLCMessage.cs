@@ -1,8 +1,8 @@
-﻿using CipherPark.ExchangeTools.Utility;
+﻿using CipherPark.CryptioTools.Utility;
 using System;
 using System.Text.Json.Serialization;
 
-namespace CipherPark.ExchangeTools.Kraken.Models.Websockets
+namespace CipherPark.CryptioTools.Kraken.Models.Websockets
 {
     public class WSOHLCMessage
     {

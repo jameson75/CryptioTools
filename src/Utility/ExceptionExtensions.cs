@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace CipherPark.ExchangeTools.Utility
+namespace CipherPark.CryptioTools.Utility
 {
     public static class ExceptionExtensions
     {

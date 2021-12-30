@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace CipherPark.ExchangeTools.Utility.Credentials
+namespace CipherPark.CryptioTools.Utility.Credentials
 {
     public class ExchangeCredentialsManager
     {

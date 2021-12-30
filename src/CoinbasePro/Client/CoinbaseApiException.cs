@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 using Newtonsoft.Json;
-using CipherPark.ExchangeTools.CoinbasePro.Models;
+using CipherPark.CryptioTools.CoinbasePro.Models;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Api
+namespace CipherPark.CryptioTools.CoinbasePro.Api
 {
     public class CoinbaseApiException : ApplicationException
     {

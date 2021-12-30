@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Models
+namespace CipherPark.CryptioTools.CoinbasePro.Models
 {
     public class HistoricRate
     {

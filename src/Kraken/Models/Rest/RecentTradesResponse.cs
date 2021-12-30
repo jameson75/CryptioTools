@@ -3,7 +3,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace CipherPark.ExchangeTools.Kraken.Models
+namespace CipherPark.CryptioTools.Kraken.Models
 {
     public class RecentTradesResponse : Response<RecentTradesResult> { }
 

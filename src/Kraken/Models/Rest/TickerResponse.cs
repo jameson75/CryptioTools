@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using CipherPark.ExchangeTools.Utility;
+using CipherPark.CryptioTools.Utility;
 
-namespace CipherPark.ExchangeTools.Kraken.Models
+namespace CipherPark.CryptioTools.Kraken.Models
 {
     public class TickerInfo
     {

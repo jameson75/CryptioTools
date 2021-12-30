@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.IntegrationTests
+namespace CipherPark.CryptioTools.CoinbasePro.IntegrationTests
 {
     public static class LinqExtensions
     {

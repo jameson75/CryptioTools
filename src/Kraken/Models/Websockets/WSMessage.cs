@@ -1,4 +1,4 @@
-﻿namespace CipherPark.ExchangeTools.Kraken.Models.Websockets
+﻿namespace CipherPark.CryptioTools.Kraken.Models.Websockets
 {
     public class WSMessage
     {

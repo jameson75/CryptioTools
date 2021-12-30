@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CipherPark.ExchangeTools.Kraken.Models
+namespace CipherPark.CryptioTools.Kraken.Models
 {
     public class OrderBook
     {

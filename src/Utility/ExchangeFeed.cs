@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net;
 
-namespace CipherPark.ExchangeTools.Utility
+namespace CipherPark.CryptioTools.Utility
 {
     public abstract class ExchangeFeed : IDisposable
     {

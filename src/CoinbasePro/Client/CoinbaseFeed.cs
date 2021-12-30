@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json;
-using CipherPark.ExchangeTools.CoinbasePro.Models;
-using CipherPark.ExchangeTools.CoinbasePro.Common;
-using CipherPark.ExchangeTools.Utility;
+using CipherPark.CryptioTools.CoinbasePro.Models;
+using CipherPark.CryptioTools.CoinbasePro.Common;
+using CipherPark.CryptioTools.Utility;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Api
+namespace CipherPark.CryptioTools.CoinbasePro.Api
 {
     public class CoinbaseFeed : ExchangeFeed
     {

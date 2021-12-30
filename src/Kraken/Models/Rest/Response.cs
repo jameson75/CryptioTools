@@ -1,5 +1,5 @@
 ﻿
-namespace CipherPark.ExchangeTools.Kraken.Models
+namespace CipherPark.CryptioTools.Kraken.Models
 {
     public abstract class Response<T>
     {

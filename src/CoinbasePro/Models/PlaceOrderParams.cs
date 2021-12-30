@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using CipherPark.ExchangeTools.CoinbasePro.Common;
+using CipherPark.CryptioTools.CoinbasePro.Common;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Models
+namespace CipherPark.CryptioTools.CoinbasePro.Models
 {
     public class PlaceOrderParams
     {

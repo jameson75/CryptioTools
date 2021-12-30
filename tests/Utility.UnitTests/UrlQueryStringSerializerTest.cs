@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
 using Xunit;
-using CipherPark.ExchangeTools.Utility;
+using CipherPark.CryptioTools.Utility;
 
 namespace Utility.UnitTests
 {   

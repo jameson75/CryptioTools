@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using CipherPark.ExchangeTools.Utility;
-using CipherPark.ExchangeTools.Kraken.Models.Websockets;
+using CipherPark.CryptioTools.Utility;
+using CipherPark.CryptioTools.Kraken.Models.Websockets;
 using System.Linq;
 
-namespace CipherPark.ExchangeTools.Kraken.Api
+namespace CipherPark.CryptioTools.Kraken.Api
 {
     public class KrakenFeed : ExchangeFeed
     {

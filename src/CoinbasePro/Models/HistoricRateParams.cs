@@ -1,6 +1,6 @@
-﻿using CipherPark.ExchangeTools.Utility;
+﻿using CipherPark.CryptioTools.Utility;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Models
+namespace CipherPark.CryptioTools.CoinbasePro.Models
 {
     public class HistoricRateParams
     {

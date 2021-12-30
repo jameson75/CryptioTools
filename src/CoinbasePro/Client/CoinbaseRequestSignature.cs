@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Api
+namespace CipherPark.CryptioTools.CoinbasePro.Api
 {
     internal static class CoinbaseRequestSignature
     {

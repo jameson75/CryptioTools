@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Models
+namespace CipherPark.CryptioTools.CoinbasePro.Models
 {
     public class AsyncRequestResult
     {

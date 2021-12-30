@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Models
+namespace CipherPark.CryptioTools.CoinbasePro.Models
 {
     public class MarginStatusResult
     {

@@ -5,10 +5,10 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using CipherPark.ExchangeTools.CoinbasePro.Models;
-using CipherPark.ExchangeTools.Utility;
+using CipherPark.CryptioTools.CoinbasePro.Models;
+using CipherPark.CryptioTools.Utility;
 
-namespace CipherPark.ExchangeTools.CoinbasePro.Api
+namespace CipherPark.CryptioTools.CoinbasePro.Api
 {
     public class CoinbaseApi
     {

@@ -2,9 +2,9 @@
 using System.Threading;
 using Xunit;
 using FluentAssertions;
-using CipherPark.ExchangeTools.Kraken.Api;
+using CipherPark.CryptioTools.Kraken.Api;
 
-namespace CipherPark.ExchangeTools.Kraken.IntegrationTests
+namespace CipherPark.CryptioTools.Kraken.IntegrationTests
 {
     public class KrakenFeedTest
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CipherPark.ExchangeTools.Kraken.Models
+namespace CipherPark.CryptioTools.Kraken.Models
 {
     public class AddStandardOrderResult
     {
